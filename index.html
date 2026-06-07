@@ -154,9 +154,18 @@
             inset: 0;
             background: #f0f0f0;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 28px;
             z-index: 9999;
+        }
+        #pw-overlay .pw-bald {
+            font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 2.2rem;
+            font-weight: bold;
+            letter-spacing: 0.11em;
+            color: #3a3a3a;
         }
         #pw-overlay input {
             font-family: Helvetica, sans-serif;
@@ -176,6 +185,7 @@
 <body>
 
     <div id="pw-overlay">
+        <span class="pw-bald">bald</span>
         <input id="pw-input" type="password" placeholder="·····" autofocus>
     </div>
     <script>
@@ -215,12 +225,12 @@
 
     <script>
         const caps = [
-            { src: 'ff_camo.jpg',        label: 'camo',        shopifyId: '15857186799950' },
-            { src: 'ff_duskypink.jpg',   label: 'duskypink',   shopifyId: '15857169400142' },
-            { src: 'ff_cornflower.jpg',  label: 'cornflower',  shopifyId: '15857175527758' },
-            { src: 'ff_sagegreen.jpg',   label: 'sagegreen',   shopifyId: '15857172480334' },
-            { src: 'ff_denim.jpg',       label: 'denim',       shopifyId: '15857170252110' },
-            { src: 'ff_red.jpg',         label: 'red',         shopifyId: '15857181458766' },
+            { src: 'ff_camo.png',        label: 'camo',        shopifyId: '15857186799950' },
+            { src: 'ff_duskypink.png',   label: 'duskypink',   shopifyId: '15857169400142' },
+            { src: 'ff_cornflower.png',  label: 'cornflower',  shopifyId: '15857175527758' },
+            { src: 'ff_sagegreen.png',   label: 'sagegreen',   shopifyId: '15857172480334' },
+            { src: 'ff_denim.png',       label: 'denim',       shopifyId: '15857170252110' },
+            { src: 'ff_red.png',         label: 'red',         shopifyId: '15857181458766' },
         ];
 
         function shuffle(arr) {
