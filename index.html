@@ -11,13 +11,31 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f0f0f0;
+            background-image: url('ff_bg_mirror.jpg');
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        @media (max-width: 600px) {
+            html { background: none; position: relative; }
+            html::before {
+                content: '';
+                position: fixed;
+                inset: 0;
+                background-image: url('ff_bg_mirror.jpg');
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+                opacity: 0.9;
+                z-index: -1;
+            }
+            body { background: none; }
         }
         span {
             font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif;
             font-size: 2.2rem;
             font-weight: bold;
-            letter-spacing: 0.11em;
+            letter-spacing: 0.10em;
             color: #3a3a3a;
         }
     </style>
