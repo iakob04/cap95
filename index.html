@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>bald</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P5TNHV8011"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', { analytics_storage: 'denied' });
+      gtag('js', new Date());
+      gtag('config', 'G-P5TNHV8011');
+      if (localStorage.getItem('cookie_consent') === '1') {
+        gtag('consent', 'update', { analytics_storage: 'granted' });
+      }
+    </script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -38,13 +50,35 @@
             letter-spacing: 0.09em;
             color: #3a3a3a;
             text-shadow:
-                -0.8px  0.8px rgba(255, 20, 20, 0.5),
-                   0px -0.8px rgba(20, 255, 20, 0.5),
-                 0.8px  0.8px rgba(20, 20, 255, 0.5);
+                -0.35px  0.35px rgba(255, 20, 20, 0.5),
+                    0px -0.35px rgba(20, 255, 20, 0.5),
+                  0.35px  0.35px rgba(20, 20, 255, 0.5);
         }
     </style>
 </head>
 <body>
     <span>bald</span>
+    <div id="cookie-banner" style="position:fixed;bottom:0;left:0;right:0;padding:14px 24px;background:#f0f0f0;border-top:1px solid #ccc;font-family:'Courier New',Courier,monospace;font-size:0.68rem;color:#3a3a3a;z-index:99999;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <span style="font-family:'Courier New',Courier,monospace;font-size:0.68rem;color:#3a3a3a;text-shadow:none;">Diese Website verwendet Google Analytics. <a href="datenschutz.html" style="color:#3a3a3a;">Datenschutzerklärung</a></span>
+        <div style="display:flex;gap:10px;flex-shrink:0;">
+            <button onclick="cookieConsent(true)" style="font-family:'Courier New',Courier,monospace;font-size:0.68rem;background:#3a3a3a;color:#f0f0f0;border:none;padding:6px 14px;cursor:pointer;">Akzeptieren</button>
+            <button onclick="cookieConsent(false)" style="font-family:'Courier New',Courier,monospace;font-size:0.68rem;background:transparent;color:#3a3a3a;border:1px solid #3a3a3a;padding:6px 14px;cursor:pointer;">Ablehnen</button>
+        </div>
+    </div>
+    <script>
+      (function() {
+        var c = localStorage.getItem('cookie_consent');
+        if (c !== null) { document.getElementById('cookie-banner').style.display = 'none'; }
+      })();
+      function cookieConsent(accepted) {
+        document.getElementById('cookie-banner').style.display = 'none';
+        if (accepted) {
+          localStorage.setItem('cookie_consent', '1');
+          gtag('consent', 'update', { analytics_storage: 'granted' });
+        } else {
+          localStorage.setItem('cookie_consent', '0');
+        }
+      }
+    </script>
 </body>
 </html>

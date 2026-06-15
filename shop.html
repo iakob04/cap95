@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kappen gegen Rechts</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P5TNHV8011"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', { analytics_storage: 'denied' });
+      gtag('js', new Date());
+      gtag('config', 'G-P5TNHV8011');
+      if (localStorage.getItem('cookie_consent') === '1') {
+        gtag('consent', 'update', { analytics_storage: 'granted' });
+      }
+    </script>
     <style>
         @font-face {
             font-family: 'Kindergarten';
@@ -70,6 +82,10 @@
             letter-spacing: 0.1em;
             color: #3a3a3a;
             opacity: 0.35;
+            text-shadow:
+                -0.35px  0.35px rgba(255, 20, 20, 0.5),
+                    0px -0.35px rgba(20, 255, 20, 0.5),
+                  0.35px  0.35px rgba(20, 20, 255, 0.5);
         }
 
         .t {
@@ -78,6 +94,10 @@
             color: #3a3a3a;
             display: inline-block;
             line-height: 1;
+            text-shadow:
+                -0.35px  0.35px rgba(255, 20, 20, 0.5),
+                    0px -0.35px rgba(20, 255, 20, 0.5),
+                  0.35px  0.35px rgba(20, 20, 255, 0.5);
         }
 
         /* ── CAP SCREENS ────────────────────────────────────── */
@@ -105,7 +125,11 @@
         .cap-item img {
             width: min(60vw, 320px);
             height: auto;
-            filter: drop-shadow(4px 6px 16px rgba(0,0,0,0.38));
+            filter:
+                drop-shadow(4px 6px 16px rgba(0,0,0,0.38))
+                drop-shadow(-0.525px 0.525px 0 rgba(255, 20, 20, 0.5))
+                drop-shadow(0px -0.525px 0 rgba(20, 255, 20, 0.5))
+                drop-shadow(0.525px 0.525px 0 rgba(20, 20, 255, 0.5));
             display: block;
         }
 
@@ -130,6 +154,10 @@
             letter-spacing: 0.1em;
             color: #3a3a3a;
             margin-top: 12px;
+            text-shadow:
+                -0.35px  0.35px rgba(255, 20, 20, 0.5),
+                    0px -0.35px rgba(20, 255, 20, 0.5),
+                  0.35px  0.35px rgba(20, 20, 255, 0.5);
         }
 
         /* ── IMPRESSUM ──────────────────────────────────────── */
@@ -141,6 +169,10 @@
             letter-spacing: 0.06em;
             color: #3a3a3a;
             opacity: 0.6;
+            text-shadow:
+                -0.35px  0.35px rgba(255, 20, 20, 0.5),
+                    0px -0.35px rgba(20, 255, 20, 0.5),
+                  0.35px  0.35px rgba(20, 20, 255, 0.5);
         }
 
         .dse-link {
@@ -166,6 +198,10 @@
             font-weight: bold;
             letter-spacing: 0.11em;
             color: #3a3a3a;
+            text-shadow:
+                -0.35px  0.35px rgba(255, 20, 20, 0.5),
+                    0px -0.35px rgba(20, 255, 20, 0.5),
+                  0.35px  0.35px rgba(20, 20, 255, 0.5);
         }
         #pw-overlay input {
             font-family: Helvetica, sans-serif;
@@ -307,6 +343,66 @@
     </script>
 
     <div id="shopify-mounts" style="position:absolute;left:-9999px;top:0"></div>
+    <script>
+    // Inject centering CSS into Shopify modal iframes
+    (function() {
+        const ts = 'text-shadow:-0.35px 0.35px rgba(255,20,20,0.5),0px -0.35px rgba(20,255,20,0.5),0.35px 0.35px rgba(20,20,255,0.5)!important';
+        const css = `[class*="price"],[class*="Price"]{text-align:center!important;justify-content:center!important;${ts}}[class*="description"] p{margin-bottom:3.12px!important;${ts}}.shopify-buy__product__title{${ts}}.shopify-buy__btn{${ts}}.shopify-buy__quantity{border-top-right-radius:0!important;border-bottom-right-radius:0!important}.shopify-buy__modal{background:transparent!important}.shopify-buy__btn-and-quantity{gap:0!important}.shopify-buy__btn.shopify-buy__beside-quantity{border-top-left-radius:0!important;border-bottom-left-radius:0!important}`;
+        const cartCss = `[class*="price"],[class*="Price"]{text-align:center!important;justify-content:center!important}`;
+        function injectIntoFrame(iframe) {
+            try {
+                const doc = iframe.contentDocument;
+                if (!doc || !doc.head) return;
+                const s = doc.createElement('style');
+                const isCart = !!iframe.closest('.shopify-buy-frame--cart');
+                s.textContent = isCart ? cartCss : css;
+                doc.head.appendChild(s);
+            } catch(e) {}
+        }
+        // Make outer overlay transparent
+        const outerStyle = document.createElement('style');
+        outerStyle.textContent = '.shopify-buy-modal-wrapper{background:url("ff_bg_mirror.jpg") center top / cover fixed!important}.shopify-buy-frame--modal{background:transparent!important}';
+        document.head.appendChild(outerStyle);
+
+        function injectAll() {
+            [...document.querySelectorAll('iframe')].forEach(f => {
+                f.style.background = 'transparent';
+                injectIntoFrame(f);
+            });
+        }
+
+        const obs = new MutationObserver(mutations => {
+            mutations.forEach(m => m.addedNodes.forEach(node => {
+                if (node.tagName === 'IFRAME') {
+                    node.style.background = 'transparent';
+                    node.addEventListener('load', () => injectIntoFrame(node));
+                    injectIntoFrame(node);
+                }
+            }));
+        });
+        obs.observe(document.body, { childList: true, subtree: true });
+
+        function applyModalBg() {
+            const wrapper = document.querySelector('.shopify-buy-modal-wrapper');
+            if (wrapper) {
+                wrapper.style.setProperty('background-image', "url('ff_bg_mirror.jpg')", 'important');
+                wrapper.style.setProperty('background-size', '100% auto', 'important');
+                wrapper.style.setProperty('background-position', 'center top', 'important');
+                wrapper.style.setProperty('background-attachment', 'fixed', 'important');
+            }
+        }
+
+        // Also inject on every cap click with delay (modal loads async)
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.cap-item')) {
+                setTimeout(injectAll, 500);
+                setTimeout(injectAll, 1500);
+                setTimeout(applyModalBg, 200);
+                setTimeout(applyModalBg, 800);
+            }
+        });
+    })();
+    </script>
     <script type="text/javascript">
     window._shopifyComponents = {};
     window._shopifyUI = null;
@@ -334,9 +430,9 @@
   },
   "productSet": { "styles": { "products": { "@media (min-width: 601px)": { "margin-left": "-20px" } } } },
   "modalProduct": {
-    "contents": { "img": false, "imgWithCarousel": true, "button": false, "buttonWithQuantity": true },
+    "contents": { "img": true, "imgWithCarousel": false, "button": false, "buttonWithQuantity": true },
     "styles": {
-      "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0px", "margin-bottom": "0px" } },
+      "product": { "@media (min-width: 601px)": { "max-width": "100%", "margin-left": "0px", "margin-bottom": "0px" }, "text-align": "center" },
       "button": {
         "font-weight": "bold", "font-size": "13px",
         "padding-top": "14.5px", "padding-bottom": "14.5px",
@@ -344,15 +440,14 @@
         ":hover": { "background-color": "#343434" },
         "background-color": "#3a3a3a",
         ":focus": { "background-color": "#343434" },
-        "border-radius": "40px",
-        "margin-left": "auto", "margin-right": "auto",
-        "display": "block"
+        "border-radius": "40px"
       },
-      "quantityInput": { "font-size": "13px", "padding-top": "14.5px", "padding-bottom": "14.5px" },
-      "title": { "font-family": "Helvetica Neue, sans-serif", "font-weight": "bold", "font-size": "26px", "color": "#4c4c4c" },
-      "price": { "font-family": "Helvetica Neue, sans-serif", "font-weight": "normal", "font-size": "16px", "color": "#4c4c4c" },
-      "compareAt": { "font-family": "Helvetica Neue, sans-serif", "font-weight": "normal", "font-size": "15.3px", "color": "#4c4c4c" },
-      "unitPrice": { "font-family": "Helvetica Neue, sans-serif", "font-weight": "normal", "font-size": "15.3px", "color": "#4c4c4c" }
+      "quantityInput": { "font-size": "13px", "padding-top": "14.5px", "padding-bottom": "14.5px", "border-top-left-radius": "40px", "border-bottom-left-radius": "40px" },
+      "title": { "font-family": "Helvetica Neue, sans-serif", "font-weight": "bold", "font-size": "26px", "color": "#4c4c4c", "text-align": "center" },
+      "price": { "font-family": "Helvetica Neue, sans-serif", "font-weight": "normal", "font-size": "16px", "color": "#4c4c4c", "text-align": "center" },
+      "compareAt": { "font-family": "Helvetica Neue, sans-serif", "font-weight": "normal", "font-size": "15.3px", "color": "#4c4c4c", "text-align": "center" },
+      "unitPrice": { "font-family": "Helvetica Neue, sans-serif", "font-weight": "normal", "font-size": "15.3px", "color": "#4c4c4c", "text-align": "center" },
+      "description": { "text-align": "center" }
     },
     "text": { "button": "Gemma" }
   },
@@ -403,6 +498,28 @@
         });
       }
     })();
+    </script>
+    <div id="cookie-banner" style="position:fixed;bottom:0;left:0;right:0;padding:14px 24px;background:#f0f0f0;border-top:1px solid #ccc;font-family:'Courier New',Courier,monospace;font-size:0.68rem;color:#3a3a3a;z-index:99999;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <span>Diese Website verwendet Google Analytics. <a href="datenschutz.html" style="color:#3a3a3a;">Datenschutzerklärung</a></span>
+        <div style="display:flex;gap:10px;flex-shrink:0;">
+            <button onclick="cookieConsent(true)" style="font-family:'Courier New',Courier,monospace;font-size:0.68rem;background:#3a3a3a;color:#f0f0f0;border:none;padding:6px 14px;cursor:pointer;">Akzeptieren</button>
+            <button onclick="cookieConsent(false)" style="font-family:'Courier New',Courier,monospace;font-size:0.68rem;background:transparent;color:#3a3a3a;border:1px solid #3a3a3a;padding:6px 14px;cursor:pointer;">Ablehnen</button>
+        </div>
+    </div>
+    <script>
+      (function() {
+        var c = localStorage.getItem('cookie_consent');
+        if (c !== null) { document.getElementById('cookie-banner').style.display = 'none'; }
+      })();
+      function cookieConsent(accepted) {
+        document.getElementById('cookie-banner').style.display = 'none';
+        if (accepted) {
+          localStorage.setItem('cookie_consent', '1');
+          gtag('consent', 'update', { analytics_storage: 'granted' });
+        } else {
+          localStorage.setItem('cookie_consent', '0');
+        }
+      }
     </script>
 </body>
 </html>
