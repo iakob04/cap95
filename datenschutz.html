@@ -11,8 +11,26 @@
             font-size: 0.9rem;
             line-height: 1.6;
             color: #222;
-            background: #f7f7f7;
+            background-image: url('ff_bg_mirror.jpg');
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             padding: 48px 24px 80px;
+        }
+        @media (max-width: 600px) {
+            html { background: none; position: relative; }
+            html::before {
+                content: '';
+                position: fixed;
+                inset: 0;
+                background-image: url('ff_bg_mirror.jpg');
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+                opacity: 0.9;
+                z-index: -1;
+            }
+            body { background: none; }
         }
         .wrap {
             max-width: 760px;
