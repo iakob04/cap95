@@ -322,7 +322,7 @@
     // Inject centering CSS into Shopify modal iframes
     (function() {
         const ts = 'text-shadow:-0.35px 0.35px rgba(255,20,20,0.5),0px -0.35px rgba(20,255,20,0.5),0.35px 0.35px rgba(20,20,255,0.5)!important';
-        const css = `[class*="price"],[class*="Price"]{text-align:center!important;justify-content:center!important;${ts}}[class*="description"] p{margin-bottom:3.12px!important;${ts}}.shopify-buy__product__title{${ts}}.shopify-buy__btn{${ts}}.shopify-buy__quantity{border-top-right-radius:0!important;border-bottom-right-radius:0!important}.shopify-buy__modal{background:transparent!important}.shopify-buy__btn-and-quantity{gap:0!important;justify-content:center!important}.shopify-buy__btn.shopify-buy__beside-quantity{border-top-left-radius:0!important;border-bottom-left-radius:0!important}`;
+        const css = `[class*="price"],[class*="Price"]{text-align:center!important;justify-content:center!important;${ts}}[class*="description"] p{margin-bottom:3.12px!important;${ts}}.shopify-buy__product__title{${ts}}.shopify-buy__btn{${ts};text-transform:none!important}.shopify-buy__quantity{border-top-right-radius:0!important;border-bottom-right-radius:0!important}.shopify-buy__modal{background:transparent!important}.shopify-buy__btn-and-quantity{gap:0!important;display:flex!important;justify-content:center!important}.shopify-buy__btn.shopify-buy__beside-quantity{border-top-left-radius:0!important;border-bottom-left-radius:0!important}`;
         const cartCss = `[class*="price"],[class*="Price"]{text-align:center!important;justify-content:center!important}`;
         function injectIntoFrame(iframe) {
             try {
