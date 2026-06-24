@@ -115,6 +115,16 @@
             transition: transform 0.05s linear;
             cursor: pointer;
         }
+        .cap-item.sold-out { cursor: default; }
+        .cap-img-wrap { position: relative; display: inline-block; }
+        .ausverkauft-overlay {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+        }
 
         #shopify-mount {
             position: absolute;
@@ -255,6 +265,7 @@
 
         const main = document.getElementById('main');
         const items = [];
+        const itemByShopifyId = {};
 
         shuffle(caps).forEach(cap => {
             const section = document.createElement('section');
@@ -263,13 +274,18 @@
             const item = document.createElement('div');
             item.className = 'cap-item';
             item.innerHTML = `
-                <img src="${cap.src}" alt="${cap.label}">
+                <div class="cap-img-wrap">
+                    <img src="${cap.src}" alt="${cap.label}">
+                </div>
                 <div class="cap-label">${cap.label}</div>
                 <div class="cap-shipping">Versand Anfang Juli 2026</div>
             `;
 
+            if (cap.shopifyId) itemByShopifyId[cap.shopifyId] = item;
+
             item.addEventListener('click', () => {
                 if (!cap.shopifyId) return;
+                if (item.classList.contains('sold-out')) return;
                 const cached = window._shopifyComponents && window._shopifyComponents[cap.label];
                 if (cached) { cached.openModal(); return; }
                 if (!window._shopifyUI) return;
@@ -290,6 +306,34 @@
             main.appendChild(section);
             items.push({ item, section });
         });
+
+        // Ausverkauft-Overlay: Verfügbarkeit via Shopify Storefront API prüfen
+        (function() {
+            const ids = caps.filter(c => c.shopifyId).map(c => `gid://shopify/Product/${c.shopifyId}`);
+            const query = `{nodes(ids:${JSON.stringify(ids)}){... on Product{id availableForSale}}}`;
+            fetch('https://92k77k-mp.myshopify.com/api/2024-01/graphql.json', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Shopify-Storefront-Access-Token': 'e7fc2e35e4e43c083eaa69a0f933b28f'
+                },
+                body: JSON.stringify({ query })
+            }).then(r => r.json()).then(data => {
+                (data.data.nodes || []).forEach(node => {
+                    if (!node || node.availableForSale) return;
+                    const pid = node.id.split('/').pop();
+                    const el = itemByShopifyId[pid];
+                    if (!el) return;
+                    el.classList.add('sold-out');
+                    const wrap = el.querySelector('.cap-img-wrap');
+                    const ov = document.createElement('img');
+                    ov.src = 'ausverkauft.png';
+                    ov.className = 'ausverkauft-overlay';
+                    wrap.appendChild(ov);
+                });
+            }).catch(() => {});
+        })();
+
 
         // Scroll-zoom: cap scales up as it approaches viewport center, shrinks as it leaves
         function updateScales() {
