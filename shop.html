@@ -117,13 +117,17 @@
         }
         .cap-item.sold-out { cursor: default; }
         .cap-img-wrap { position: relative; display: inline-block; }
+        .cap-label-wrap { position: relative; display: inline-block; }
         .ausverkauft-badge {
-            width: min(22vw, 90px);
-            height: auto;
-            display: block;
-            margin: 8px auto -4px;
+            position: absolute !important;
+            width: min(28vw, 110px) !important;
+            height: auto !important;
+            filter: none !important;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-20deg);
             pointer-events: none;
-            transform: rotate(-20deg);
+            z-index: 1;
         }
 
         #shopify-mount {
@@ -277,7 +281,7 @@
                 <div class="cap-img-wrap">
                     <img src="${cap.src}" alt="${cap.label}">
                 </div>
-                <div class="cap-label">${cap.label}</div>
+                <div class="cap-label-wrap"><div class="cap-label">${cap.label}</div></div>
                 <div class="cap-shipping">Versand Anfang Juli 2026</div>
             `;
 
@@ -328,7 +332,7 @@
                     const badge = document.createElement('img');
                     badge.src = 'ausverkauft.png';
                     badge.className = 'ausverkauft-badge';
-                    el.insertBefore(badge, el.querySelector('.cap-label'));
+                    el.querySelector('.cap-label-wrap').appendChild(badge);
                 });
             }).catch(() => {});
         })();
