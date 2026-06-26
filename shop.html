@@ -183,66 +183,9 @@
         }
 
 
-        #pw-overlay {
-            position: fixed;
-            inset: 0;
-            background: #f0f0f0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 28px;
-            z-index: 9999;
-        }
-        #pw-overlay .pw-bald {
-            font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif;
-            font-size: 2.2rem;
-            font-weight: bold;
-            letter-spacing: 0.11em;
-            color: #3a3a3a;
-            text-shadow:
-                -0.35px  0.35px rgba(255, 20, 20, 0.5),
-                    0px -0.35px rgba(20, 255, 20, 0.5),
-                  0.35px  0.35px rgba(20, 20, 255, 0.5);
-        }
-        #pw-overlay input {
-            font-family: Helvetica, sans-serif;
-            font-size: 1rem;
-            letter-spacing: 0.15em;
-            border: none;
-            border-bottom: 1px solid #3a3a3a;
-            background: transparent;
-            outline: none;
-            padding: 8px 0;
-            width: 120px;
-            text-align: center;
-            color: #3a3a3a;
-        }
     </style>
 </head>
 <body>
-
-    <div id="pw-overlay">
-        <span class="pw-bald">bald</span>
-        <input id="pw-input" type="password" placeholder="·····" autofocus>
-    </div>
-    <script>
-        (function() {
-            if (sessionStorage.getItem('auth') === '1') {
-                document.getElementById('pw-overlay').style.display = 'none';
-            }
-            document.getElementById('pw-input').addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && this.value === 'anna') {
-                    sessionStorage.setItem('auth', '1');
-                    document.getElementById('pw-overlay').style.display = 'none';
-                } else if (e.key === 'Enter') {
-                    this.value = '';
-                    this.style.borderBottomColor = '#cc0000';
-                    setTimeout(() => this.style.borderBottomColor = '#3a3a3a', 600);
-                }
-            });
-        })();
-    </script>
 
     <header>
         <div class="title-wrap">
